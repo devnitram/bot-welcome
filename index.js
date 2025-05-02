@@ -35,23 +35,44 @@ client.on("guildMemberAdd", async (member) => {
 
   if (channel) {
     channel.send(
-      `Olá grande 🐵 macaco ${member}, bem-vindo(a) ao servidor da galera!`
+      `Olá grande 🐵 macaco ${member.user.username}, bem-vindo(a) ao servidor da galera!`
     );
   } else {
     console.log(`❌ Canal "${welcomeChannelName}" não encontrado.`);
   }
+});
 
-  client.on("guildMemberRemove", (member) => {
-    const channel = member.guild.channels.cache.find(
-      (ch) => ch.name === "🐒-boas-vindas"
-    );
+client.on("guildMemberRemove", (member) => {
+  const channel = member.guild.channels.cache.find(
+    (ch) => ch.name === "🐒-boas-vindas"
+  );
 
-    if (!channel) return;
+  if (!channel) return;
 
-    channel.send(
-      `Alá, o macaco ${member} quitando, ja tiltou. É foda, pode falar nada com a princesa que ja fica "aiai vou dar meu cu ali".`
-    );
-  });
+  channel.send(
+    `Alá, o macaco ${member.user.username} quitando, ja tiltou. É foda, pode falar nada com a princesa que ja fica "aiai vou dar meu cu ali".`
+  );
+});
+client.on("messageCreate", (message) => {
+  if (message.author.bot) return;
+
+  if (message.mentions.has(client.user)) {
+    const answers = [
+      "Quer atenção princesa?",
+      "Não tenho certeza, mas me parece que tu ou quer pau ou quer mel, sério mermo",
+      "Cuidado que o macaco ta puto ai galerakkkkkkkkkkkkkkkkk",
+      "Viado?",
+      "Macaco?",
+      "Puta?",
+      "Vc quer é pau",
+    ];
+
+    const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+
+    setTimeout(() => {
+      message.channel.send(randomAnswer);
+    }, 2500);
+  }
 });
 
 client.login(process.env.TOKEN);
